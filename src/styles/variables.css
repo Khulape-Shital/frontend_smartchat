@@ -1,0 +1,84 @@
+ 
+
+:root,
+[data-theme="dark"] {
+  /* Brand Colors - from tokens.js */
+  --brand: #2563eb;
+  --brand-rgb: 37, 99, 235;
+  --brand-gradient: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  --accent-sidebar: #3b82f6;
+
+  /* Sidebar - Dark Theme */
+  --bg-sidebar: #1e293b;
+  --bg-sidebar-hover: #334155;
+  --bg-sidebar-active: #0f172a;
+  --text-sidebar: #cbd5e1;
+  --text-sidebar-active: #f1f5f9;
+  --border-sidebar: #334155;
+  --border-sidebar-inner: #475569;
+
+  /* Chat Input - Dark Theme */
+  --bg-chat-input-wrap: #1e293b;
+  --border-chat: #ffffff;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #64748b;
+  --input-placeholder: #94a3b8;
+
+  /* General - Dark Theme */
+  --bg-input: #334155;
+  --border: #475569;
+  --error: #ef4444;
+  --shadow-input: 0 0 0 3px rgba(37, 99, 235, 0.2);
+
+  /* AI Bubble - Dark Theme */
+  --bg-bubble-ai: #2c415c;
+  --text-bubble-ai: #dbeafe;
+
+  /* Buttons & Shadows */
+  --shadow-btn: 0 4px 14px rgba(59,130,246,0.4);
+
+  /* Utilities */
+  --radius-sm: 6px;
+}
+
+[data-theme="light"] {
+  /* Brand Colors - from tokens.js */
+  --brand: #2563eb;
+  --brand-rgb: 37, 99, 235;
+  --brand-gradient: linear-gradient(135deg, #5273b6 0%, #5572c1 100%);
+  --accent-sidebar: #55709c;
+
+  /* Sidebar - Light Theme */
+  --bg-sidebar: #f8fafc;
+  --bg-sidebar-hover: #e2e8f0;
+  --bg-sidebar-active: #f1f5f9;
+  --text-sidebar: #475569;
+  --text-sidebar-active: #1e293b;
+  --border-sidebar: #e2e8f0;
+  --border-sidebar-inner: #cbd5e1;
+
+  /* Chat Input - Light Theme */
+  --bg-chat-input-wrap: #ffffff;
+  --border-chat: #cbd5e1;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #9ca3af;
+  --input-placeholder: #9ca3af;
+
+  /* General - Light Theme */
+  --bg-input: #f3f4f6;
+  --border: #e5e7eb;
+  --error: #dc2626;
+  --shadow-input: 0 0 0 3px rgba(37, 99, 235, 0.1);
+
+  /* AI Bubble - Light Theme */
+  --bg-bubble-ai: #bbc5d3;
+  --text-bubble-ai: #0f3f5c;
+
+  /* Buttons & Shadows */
+   --shadow-btn: 0 4px 12px rgba(37, 99, 235, 0.3);
+
+  /* Utilities */
+  --radius-sm: 6px;
+}

@@ -1,0 +1,21 @@
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.toggle:hover {
+  background: var(--bg-input-focus);
+  color: var(--brand);
+  border-color: var(--brand);
+  transform: rotate(12deg);
+}

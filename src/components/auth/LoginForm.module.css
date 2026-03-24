@@ -1,0 +1,385 @@
+ 
+.page {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+ 
+.card {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+}
+ 
+.left {
+  width: 42%;
+  background: var(--brand-gradient);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 36px 32px;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+/* Brand row at top */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brandIcon {
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+.brandName {
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+/* Hero content in middle */
+.heroContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 32px 0;
+}
+
+.heroTitle {
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.6px;
+  margin: 0 0 14px 0;
+}
+
+.heroSubtitle {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.82);
+  margin: 0;
+}
+
+/* Badge at bottom */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(4px);
+  border-radius: 50px;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+  width: fit-content;
+}
+
+/* ====================================================
+   RIGHT PANEL — Form Area
+   ==================================================== */
+.right {
+  flex: 1;
+  /* Auth form is always light — override dark-mode CSS variables locally */
+  --bg-card:        #ffffff;
+  --bg-input:       #f8fafc;
+  --bg-input-focus: #f0f6ff;
+  --text-dark:      #0f172a;
+  --text-secondary: #475569;
+  --border:         #e2e8f0;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 32px;
+  transition: background 0.3s;
+  overflow-y: auto;
+}
+
+/* Inner content limiter */
+.formInner {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Form header */
+.formHeader {
+  margin-bottom: 28px;
+}
+
+.formTitle {
+  font-size:15 px;
+  font-weight: 700;
+  color: var(--text-dark);
+  letter-spacing: -0.4px;
+  margin: 0 0 6px 0;
+}
+
+.formSubtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Form layout */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap:25px;
+}
+
+/* Side-by-side row (password + confirm) */
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* Submit button */
+.submitBtn {
+  width: 100%;
+  padding: 13px;
+  background: var(--brand);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.2px;
+  transition:
+    background 0.2s,
+    box-shadow 0.2s,
+    transform 0.1s;
+  box-shadow: var(--shadow-btn);
+  margin-top: 4px;
+}
+
+.submitBtn:hover:not(:disabled) {
+  background: var(--brand-gradient);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+}
+
+.submitBtn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.submitBtn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Checkbox row (terms) */
+.checkboxRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: -4px;
+}
+
+.checkboxRow input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  accent-color: var(--brand);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.checkboxLabel {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.checkboxLabel a {
+  color: var(--brand);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.checkboxLabel a:hover {
+  text-decoration: underline;
+}
+
+.checkboxError {
+  font-size: 12px;
+  color: var(--error);
+  margin: -8px 0 0 0;
+}
+
+/* Forgot password row */
+.forgotRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -8px;
+}
+
+.forgotLink {
+  font-size: 13px;
+  color: var(--brand);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.forgotLink:hover {
+  text-decoration: underline;
+}
+
+/* Remember me + forgot password */
+.rememberRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: -4px;
+}
+
+.rememberLabel {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.rememberLabel input[type="checkbox"] {
+  accent-color: var(--brand);
+  width: 14px;
+  height: 14px;
+}
+
+/* Footer (sign-in/sign-up link) */
+.footer {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.footerLink {
+  color: var(--brand);
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+.footerLink:hover {
+  text-decoration: underline;
+}
+
+/* OR divider */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  margin: 4px 0;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* Social buttons column */
+.socialCol {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Server error alert */
+.errorAlert {
+  background: var(--error-bg);
+  border: 1px solid var(--border-error);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--error);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ====================================================
+   RESPONSIVE
+   ==================================================== */
+@media (max-width: 768px) {
+  .page {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .card {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .left {
+    width: 100%;
+    padding: 28px 24px;
+    min-height: 220px;
+  }
+
+  .heroContent {
+    padding: 12px 0;
+  }
+
+  .heroTitle {
+    font-size: 22px;
+  }
+
+  .right {
+    padding: 32px 24px 28px;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .left {
+    padding: 22px 20px;
+    min-height: 180px;
+  }
+
+  .right {
+    padding: 24px 20px 22px;
+  }
+
+  .formHeader {
+    margin-bottom: 20px;
+  }
+
+  .heroTitle {
+    font-size: 19px;
+  }
+}
