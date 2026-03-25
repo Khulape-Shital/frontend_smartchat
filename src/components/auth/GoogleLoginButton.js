@@ -1,27 +1,32 @@
-"use client"
+"use client";
 
-import { GoogleLogin } from "@react-oauth/google"
-import { useRouter } from "next/navigation"
-import { ROUTES, ERROR_MESSAGES, DEFAULTS } from "@/lib/constants"
-import { useAuth } from "@/hooks/useAuth"
-import styles from "./GoogleLoginButton.module.css"
+import { GoogleLogin } from "@react-oauth/google";
+import { useRouter } from "next/navigation";
+import { ROUTES, ERROR_MESSAGES, DEFAULTS } from "@/lib/constants";
+import { useAuth } from "@/hooks/useAuth";
+import styles from "./GoogleLoginButton.module.css";
 
 export default function GoogleLoginButton() {
-  const router = useRouter()
-  const { googleAuthLogin } = useAuth() // ✅ use context
+  const router = useRouter();
+  const { googleAuthLogin } = useAuth(); // ✅ use context
 
   const handleSuccess = async (credentialResponse) => {
-    const token = credentialResponse.credential
-
+    const token = credentialResponse.credential;
+    if (!token) {
+      console.error("No credential received from Google");
+      return;
+    }
     try {
       // ✅ delegate to context
-      await googleAuthLogin(token)
+      const res = await googleAuthLogin(token);
 
-      router.replace(ROUTES.CHAT) // ✅ better than push
+      setTimeout(() => {
+        router.replace(ROUTES.CHAT);
+      }, 150); // ✅ better than push
     } catch (error) {
-      console.error(ERROR_MESSAGES.GOOGLE_LOGIN, error)
+      console.error(ERROR_MESSAGES.GOOGLE_LOGIN, error);
     }
-  }
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -36,5 +41,5 @@ export default function GoogleLoginButton() {
         width={DEFAULTS.GOOGLE_BUTTON_WIDTH}
       />
     </div>
-  )
+  );
 }

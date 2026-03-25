@@ -13,9 +13,11 @@ import ChatIcon from "@mui/icons-material/Chat"
 import { STORAGE_KEYS, ROUTES, ERROR_MESSAGES, EMPTY_STATE, CHAT_SUGGESTIONS, DEFAULTS, APP_NAME } from "@/lib/constants"
 import { useChatMessages } from "@/hooks/useChatMessages"
 import { useChatSessions } from "@/hooks/useChatSessions"
+import { useAuth } from "@/hooks/useAuth"
  
 
 export default function ChatPage() {
+  const { isAuthenticated, isInitialized } = useAuth()
   const [open, setOpen] = useState(true)
   const [selectedChatId, setSelectedChatId] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -24,6 +26,7 @@ export default function ChatPage() {
   const messagesEndRef = useRef(null)
   const scrollThresholdRef = useRef(150) // pixels from bottom to trigger auto-scroll
   const streamUpdateTimeoutRef = useRef(null)
+  
 
   // Custom hooks for managing messages and sessions
   const { messages, setMessages, error: msgError, setError: setMsgError, reload: reloadMessages } = useChatMessages(selectedChatId)
@@ -31,16 +34,22 @@ export default function ChatPage() {
 
   const error = msgError || sessionError
   const router = useRouter()
+ 
+ 
 
-  // Auth guard with middleware (see middleware.js)
-  // This is kept as a fallback for client-side verification
-  useEffect(() => {
-    const token = localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN)
-    if (!token) {
-      sessionStorage.removeItem('auth_complete')
-      router.push(ROUTES.LOGIN)
-    }
-  }, [router])
+useEffect(() => {
+  if (!isInitialized) return
+
+  if (!isAuthenticated) {
+    sessionStorage.removeItem("auth_complete")
+    router.replace(ROUTES.LOGIN)
+  }
+}, [isAuthenticated, isInitialized, router])
+
+// ✅ ADD THIS
+if (!isInitialized) {
+  return null
+}
 
   // Smart auto-scroll: only auto-scroll if user is already near the bottom
   const autoScroll = useCallback(() => {
