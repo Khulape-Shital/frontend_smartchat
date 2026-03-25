@@ -21,21 +21,15 @@ export default function AuthProvider({ children }) {
   const [error, setError] = useState(null)
 
   // ✅ FIX 1: Add reactive user state
-  const [user, setUser] = useState(null)
-  const [isInitialized, setIsInitialized] = useState(false)
-
-useEffect(() => {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEYS.USER)
-    if (stored) {
-      setUser(JSON.parse(stored))
+  const [user, setUser] = useState(() => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEYS.USER)
+      return stored ? JSON.parse(stored) : null
+    } catch {
+      return null
     }
-  } catch {
-    setUser(null)
-  }finally {
-    setIsInitialized(true) // ✅ KEY FIX
-  }
-}, [])
+  })
+
   const isAuthenticated = !!user
 
   // ✅ FIX 2: Clear error on route change
@@ -54,11 +48,9 @@ useEffect(() => {
       const data = await loginUser(credentials)
 
       localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, data.access_token)
-      document.cookie = `access_token=${data.access_token}; path=/; max-age=3600; SameSite=Strict`
 
       if (data.refresh_token) {
         localStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, data.refresh_token)
-        document.cookie = `refresh_token=${data.refresh_token}; path=/; max-age=604800; SameSite=Strict`
       }
 
       if (data.user) {
@@ -86,11 +78,9 @@ useEffect(() => {
       const data = await registerUser(userData)
 
       localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, data.access_token)
-      document.cookie = `access_token=${data.access_token}; path=/; max-age=3600; SameSite=Strict`
 
       if (data.refresh_token) {
         localStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, data.refresh_token)
-        document.cookie = `refresh_token=${data.refresh_token}; path=/; max-age=604800; SameSite=Strict`
       }
 
       if (data.user) {
@@ -120,11 +110,9 @@ useEffect(() => {
       const data = await googleLogin(token)
 
       localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, data.access_token)
-      document.cookie = `access_token=${data.access_token}; path=/; max-age=3600; SameSite=Strict`
 
       if (data.refresh_token) {
         localStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, data.refresh_token)
-        document.cookie = `refresh_token=${data.refresh_token}; path=/; max-age=604800; SameSite=Strict`
       }
 
       if (data.user) {
@@ -151,10 +139,6 @@ useEffect(() => {
     localStorage.removeItem(STORAGE_KEYS.REFRESH_TOKEN)
     localStorage.removeItem(STORAGE_KEYS.USER)
 
-    // Clear cookies
-    document.cookie = "access_token=; path=/; max-age=0"
-    document.cookie = "refresh_token=; path=/; max-age=0"
-
     setUser(null)
     setError(null)
 
@@ -167,7 +151,6 @@ useEffect(() => {
     login,
     register,
     googleAuthLogin,
-    isInitialized,
     logout,
     isLoading,
     error,

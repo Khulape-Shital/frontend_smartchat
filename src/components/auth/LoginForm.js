@@ -30,7 +30,7 @@ import styles from "./LoginForm.module.css";
 
 export default function LoginForm() {
   const router = useRouter();
-  const { login, isLoading, error: authError, isAuthenticated, isInitialized  } = useAuth();
+  const { login, isLoading, error: authError } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,14 +39,6 @@ export default function LoginForm() {
   );
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState("");
-
-  useEffect(() => {
-  if (!isInitialized) return
-
-  if (isAuthenticated) {
-    router.replace(ROUTES.CHAT)
-  }
-}, [isAuthenticated, isInitialized, router])
 
   const validate = () => {
     const e = {
