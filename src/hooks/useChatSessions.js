@@ -29,6 +29,7 @@ export function useChatSessions() {
     async (title = DEFAULTS.CHAT_TITLE) => {
       try {
         const newChat = await createChat(title)
+        
         setConversations((prev) => [newChat, ...prev])
         setError(null)
         return newChat

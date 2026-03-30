@@ -21,6 +21,9 @@ export default function ForgotPasswordForm() {
 
     try {
       const response = await authService.forgotPassword(email);
+      console.log(response);
+
+      
       setMessage('Password reset link has been sent to your email. Please check your inbox.');
       setEmail('');
       

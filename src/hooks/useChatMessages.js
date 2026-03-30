@@ -21,6 +21,8 @@ export function useChatMessages(chatId) {
     setIsLoading(true)
     try {
       const res = await getMessages(chatId)
+      console.log(res);
+      
       setMessages(res || [])
       setError(null)
     } catch (err) {
