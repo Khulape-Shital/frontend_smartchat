@@ -233,7 +233,7 @@
 /* ── Input Area ── */
 .inputArea {
   padding: 14px 24px 18px;
-  border-top: 1px solid var(--border-chat);
+ 
   background: var(--bg-chat-header);
   flex-shrink: 0;
   transition: background 0.3s, border-color 0.3s;

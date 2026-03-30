@@ -12,18 +12,66 @@ import Tooltip from "@mui/material/Tooltip";
 import styles from "./sidebar.module.css";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getChats, createChat, deleteChat, updateChatTitle } from "@/services/chatService";
-import { SIDEBAR, ERROR_MESSAGES, STORAGE_KEYS, ROUTES, APP_NAME } from "@/lib/constants";
+// import useModel from "../../context/ModelContext";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchModels } from "@/redux/thunkSlice/modelsthunk";
+import {setSelectedModel} from "@/redux/thunkSlice/modelsSlice";
+import {
+  getChats,
+  createChat,
+  deleteChat,
+  updateChatTitle,
+  model_selection,
+  get_models,
+} from "@/services/chatService";
+import {
+  SIDEBAR,
+  ERROR_MESSAGES,
+  STORAGE_KEYS,
+  ROUTES,
+  APP_NAME,
+} from "@/lib/constants";
 
-export default function Sidebar({ open, setOpen, selectedChatId, onSelectChat, onNewChat, refreshTrigger }) {
+export default function Sidebar({
+  open,
+  setOpen,
+  selectedChatId,
+  onSelectChat,
+  onNewChat,
+  refreshTrigger,
+}) {
   const [chats, setChats] = useState([]);
   const [username, setUsername] = useState("");
   const [userPicture, setUserPicture] = useState(null);
   const [editingChatId, setEditingChatId] = useState(null);
   const [editTitle, setEditTitle] = useState("");
   const router = useRouter();
+  // const [models, setModels]= useState([])
+  // const { selected, setSelected } = useModel();
 
  
+  // const fetchModels =async()=>{
+  //   try{
+  //     const res = await get_models();
+  //     console.log("Models API:", res); 
+  //     setModels(res||[]);
+  //    }catch{
+  //     console.log("Modells not found");
+      
+  //    }
+  // }
+
+  const dispatch = useDispatch();
+
+const { models, selected } = useSelector(
+  (state) => state.models
+);
+
+
+  
+  useEffect(() => {
+    console.log(selected);
+  }, [selected]);
   const handleLogout = () => {
     localStorage.removeItem(STORAGE_KEYS.ACCESS_TOKEN);
     localStorage.removeItem(STORAGE_KEYS.USER);
@@ -37,13 +85,13 @@ export default function Sidebar({ open, setOpen, selectedChatId, onSelectChat, o
       setChats(res || []);
     } catch (err) {
       console.error(ERROR_MESSAGES.LOAD_CHATS, err);
- 
+
       if (err?.response?.status !== 401) {
-         console.log("Error fetching chats:", err);
-        
+        console.log("Error fetching chats:", err);
       }
     }
   };
+
 
   useEffect(() => {
     const token = localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
@@ -58,7 +106,7 @@ export default function Sidebar({ open, setOpen, selectedChatId, onSelectChat, o
       try {
         const userData = JSON.parse(userString);
         setUsername(userData.name || "");
-        
+
         setUserPicture(userData.profile_picture || null);
       } catch {
         console.error("Failed to parse user data");
@@ -66,6 +114,7 @@ export default function Sidebar({ open, setOpen, selectedChatId, onSelectChat, o
     }
 
     fetchChats();
+    dispatch(fetchModels())
   }, [router]);
 
   useEffect(() => {
@@ -95,21 +144,20 @@ export default function Sidebar({ open, setOpen, selectedChatId, onSelectChat, o
     setEditTitle(chat.title);
   };
 
- 
   const confirmRename = async (e, chatId) => {
     e.stopPropagation();
     const title = editTitle.trim();
     if (!title) return;
-    const original = chats.find(c => c.id === chatId)?.title;
+    const original = chats.find((c) => c.id === chatId)?.title;
 
-      if (title === original) {
-    setEditingChatId(null);
-    return;
-  }
+    if (title === original) {
+      setEditingChatId(null);
+      return;
+    }
     try {
       await updateChatTitle(chatId, title);
       setChats((prev) =>
-        prev.map((c) => (c.id === chatId ? { ...c, title } : c))
+        prev.map((c) => (c.id === chatId ? { ...c, title } : c)),
       );
     } catch (err) {
       console.error(ERROR_MESSAGES.RENAME_CHAT, err);
@@ -127,24 +175,72 @@ export default function Sidebar({ open, setOpen, selectedChatId, onSelectChat, o
     <div className={open ? `${styles.sidebar} ${styles.open}` : styles.sidebar}>
       <div className={styles.sidebarHeader}>
         {open && <h2 className={styles.logo}>{APP_NAME}</h2>}
+
         <Tooltip title={open ? "Collapse sidebar" : "Expand sidebar"}>
-          <IconButton className={styles.menuBtn} onClick={() => setOpen(!open)} size="small">
+          <IconButton
+            className={styles.menuBtn}
+            onClick={() => setOpen(!open)}
+            size="small"
+          >
             <MenuIcon fontSize="small" />
           </IconButton>
         </Tooltip>
       </div>
 
       {/* New Chat */}
-      <Tooltip title={SIDEBAR.NEW_CHAT_LABEL} placement="right" disableHoverListener={open}>
+      <Tooltip
+        title={SIDEBAR.NEW_CHAT_LABEL}
+        placement="right"
+        disableHoverListener={open}
+      >
+        {/* {open && (
+          <div>
+            <select
+              className={styles.dropdown}
+              value={selected}
+              onChange={async (e) => {
+                setSelected(e.target.value);
+                
+              }}
+            >
+              <option value="">Select Models</option>
+              {models.map((model, index) => (
+                <option key={index} value={model.model}>
+                  {model.model}
+                </option>
+              ))}
+            </select>
+          </div>
+        )} */}
+
+        {open &&(
+          <div>
+            <select
+             className={styles.dropdown}
+             value={selected}
+             onChange={(e)=>dispatch(setSelectedModel(e.target.value))}
+            >
+              <option>Select Moodel</option>
+                {models.map((model,index)=>(
+                  <option key={index}>{model}</option>
+                ))}
+
+              
+            </select>
+          </div>
+        )}
         <button className={styles.button} onClick={handleNewChat}>
           <AddIcon fontSize="small" />
+
           {open && <span>{SIDEBAR.NEW_CHAT_LABEL}</span>}
         </button>
       </Tooltip>
 
       {/* Conversations */}
       <div className={styles.conversations}>
-        {open && <p className={styles.conversationtitle}>{SIDEBAR.RECENT_LABEL}</p>}
+        {open && (
+          <p className={styles.conversationtitle}>{SIDEBAR.RECENT_LABEL}</p>
+        )}
 
         {chats.map((chat) => (
           <div
@@ -156,9 +252,12 @@ export default function Sidebar({ open, setOpen, selectedChatId, onSelectChat, o
           >
             <ChatIcon sx={{ fontSize: 18, flexShrink: 0 }} />
 
-            {open && (
-              editingChatId === chat.id ? (
-                <div className={styles.renameRow} onClick={(e) => e.stopPropagation()}>
+            {open &&
+              (editingChatId === chat.id ? (
+                <div
+                  className={styles.renameRow}
+                  onClick={(e) => e.stopPropagation()}
+                >
                   <input
                     className={styles.renameInput}
                     value={editTitle}
@@ -208,8 +307,7 @@ export default function Sidebar({ open, setOpen, selectedChatId, onSelectChat, o
                     </IconButton>
                   </Tooltip>
                 </div>
-              )
-            )}
+              ))}
           </div>
         ))}
       </div>
@@ -219,14 +317,21 @@ export default function Sidebar({ open, setOpen, selectedChatId, onSelectChat, o
         <div className={styles.user}>
           <div className={styles.avatar}>
             {userPicture ? (
-              <img src={userPicture} alt="avatar" className={styles.avatarImg} />
+              <img
+                src={userPicture}
+                alt="avatar"
+                className={styles.avatarImg}
+              />
             ) : (
               <PersonIcon sx={{ fontSize: 16 }} />
             )}
           </div>
           {open && (
             <div>
-              <p className={styles.username} title={username}>{username}</p>
+              <p>Model:{selected}</p>
+              <p className={styles.username} title={username}>
+                {username}
+              </p>
             </div>
           )}
         </div>

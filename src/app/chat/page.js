@@ -36,6 +36,8 @@ export default function ChatPage() {
   // This is kept as a fallback for client-side verification
   useEffect(() => {
     const token = localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN)
+    console.log(token);
+    
     if (!token) {
       sessionStorage.removeItem('auth_complete')
       router.push(ROUTES.LOGIN)
@@ -60,6 +62,8 @@ export default function ChatPage() {
   }, [messages, isLoading, autoScroll])
 
   const handleSelectChat = useCallback((chatId) => {
+    console.log(chatId);
+    
     setSelectedChatId(chatId)
     setMsgError(null)
   }, [setMsgError])
@@ -94,6 +98,8 @@ export default function ChatPage() {
 
     // Add temporary message with loading state
     const tempId = `temp-${Date.now()}`
+    console.log(tempId);
+    
     const userMsg = {
       id: tempId,
       role: "user",
@@ -321,7 +327,7 @@ export default function ChatPage() {
 
           {/* Error message */}
           {error && (
-            <div className={styles.errorMsg}>⚠️ {error}</div>
+            <div className={styles.errorMsg}>  {error}</div>
           )}
 
           <div ref={messagesEndRef} />

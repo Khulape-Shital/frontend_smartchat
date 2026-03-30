@@ -1,5 +1,5 @@
 import axios from "axios"
-import { AUTH_API_URL } from "@/lib/constants"
+import { API_BASE_URL, AUTH_API_URL } from "@/lib/constants"
 
 // ✅ Helper: normalize all errors
 const normalizeError = (err) => {
@@ -64,9 +64,21 @@ export const refreshAccessToken = async (refreshToken) => {
   }
 }
 
-/*
-Forgot password - send reset link to email
-*/
+
+
+ 
+// export const verifyEmail = async(token)=>{
+//   try{
+//     const response = await axios.post(`${API_BASE_URL}/`,{token})
+//     return response.data
+//   }catch(err){
+//     throw normalizeError(err)
+//   }
+// }
+
+
+// Forgot password - send reset link to email
+ 
 export const forgotPassword = async (email) => {
   try {
     const response = await axios.post(`${AUTH_API_URL}/forgot-password`, { email })

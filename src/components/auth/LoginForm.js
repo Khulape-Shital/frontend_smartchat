@@ -54,7 +54,9 @@ export default function LoginForm() {
     setServerError("");
     if (!validate()) return;
     try {
-      await login({ email, password, remember });
+     const data= await login({ email, password, remember });
+     console.log(data);
+     
       // Mark authentication as complete to allow redirect
       sessionStorage.setItem("auth_complete", "true");
       router.replace(ROUTES.CHAT);

@@ -6,7 +6,7 @@ import { ROUTES, ERROR_MESSAGES, DEFAULTS } from "@/lib/constants"
 import { useAuth } from "@/hooks/useAuth"
 import styles from "./GoogleLoginButton.module.css"
 
-export default function GoogleLoginButton() {
+export default function GoogleLoginButton() { 
   const router = useRouter()
   const { googleAuthLogin } = useAuth() // ✅ use context
 

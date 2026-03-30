@@ -5,6 +5,8 @@ import ThemeProvider from "@/context/ThemeContext"
 import AuthProvider from "@/context/AuthContext"
 import MuiProvider from "@/components/ui/MuiProvider"
 import { GOOGLE_CLIENT_ID } from "@/lib/constants"
+// import { ModelProvider } from "@/context/ModelContext"
+import ReduxProvider from "@/redux/ReduxProvider"
 
 export function RootLayoutClient({ children, openSansClassName }) {
   return (
@@ -13,7 +15,12 @@ export function RootLayoutClient({ children, openSansClassName }) {
         <ThemeProvider>
           <AuthProvider>
             <MuiProvider>
-              {children}
+              {/* <ModelProvider>
+                {children}
+              </ModelProvider> */}
+              <ReduxProvider>
+                {children}
+              </ReduxProvider>
             </MuiProvider>
           </AuthProvider>
         </ThemeProvider>

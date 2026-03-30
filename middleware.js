@@ -1,3 +1,4 @@
+import { ROUTES } from "@/lib/constants"
 import { NextResponse } from "next/server"
 
  
@@ -10,9 +11,11 @@ export function middleware(request) {
   // Handle home route redirect
   if (pathname === "/") {
     if (token) {
-      return NextResponse.redirect(new URL("/chat", request.url))
+      console.log(request.url)
+      return NextResponse.redirect(new URL(ROUTES.CHAT, request.url))
     } else {
-      return NextResponse.redirect(new URL("/auth/login", request.url))
+      console.log(request.url)
+      return NextResponse.redirect(new URL(ROUTES.LOGIN, request.url))
     }
   }
 
@@ -23,9 +26,9 @@ export function middleware(request) {
   }
 
   // Protect private routes
-  if (pathname.startsWith("/chat")) {
+  if (pathname.startsWith(ROUTES.CHAT)) {
     if (!token) {
-      return NextResponse.redirect(new URL("/auth/login", request.url))
+      return NextResponse.redirect(new URL(ROUTES.LOGIN, request.url))
     }
   }
 

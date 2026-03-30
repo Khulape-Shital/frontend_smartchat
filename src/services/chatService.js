@@ -17,6 +17,16 @@ const authFetch = async (url, options = {}) => {
 
 // ── Chat Sessions ────────────────────────────────────────────────────────────
 
+
+export const get_models =async()=>{
+  const res = await apiClient.get(`${CHAT_API_URL}/chats/get`)
+  return res.data
+}
+// export const model_selection =async(model)=>{
+//     const res = await apiClient.post(`${CHAT_API_URL}/select_model`,{model})
+//     return response.data
+// }
+
 export const getChats = async () => {
   const res = await apiClient.get(`${CHAT_API_URL}/chats`)
   return res.data
@@ -34,8 +44,7 @@ export const updateChatTitle = async (chatId, title) => {
 
 export const deleteChat = async (chatId) => {
   const res = await apiClient.delete(`${CHAT_API_URL}/chats/${chatId}`)
-  // 204 No Content has no response body, just return success
-  // return res.status === 204 ? { success: true } : res.data
+ 
   return
 
 }
@@ -244,3 +253,4 @@ export const editMessage = async (messageId, message) => {
   const res = await apiClient.put(`${CHAT_API_URL}/messages/${messageId}/edit`, { message })
   return res.data
 }
+

@@ -10,6 +10,8 @@ import Tooltip from "@mui/material/Tooltip"
 import Chip from "@mui/material/Chip"
 import styles from "./ChatInput.module.css"
 import { CHAT_INPUT } from "@/lib/constants"
+import { useSelector } from "react-redux";
+
 
 export default function ChatInput({ handleMessages, disabled = false, prefillText = "", onPrefillConsumed }) {
 
@@ -18,6 +20,7 @@ export default function ChatInput({ handleMessages, disabled = false, prefillTex
   const [isListening, setIsListening] = useState(false)
   const recognitionRef = useRef(null)
   const textareaRef = useRef(null)
+const selected = useSelector((state) => state.models.selected);
 
  
   useEffect(() => {
@@ -137,6 +140,7 @@ const ALLOWED_TYPES = ["image/", "text/plain", "application/pdf"]
 
   return (
     <div className={styles.container}>
+      
       <Tooltip title={CHAT_INPUT.ATTACH_LABEL}>
         <label className={styles.attachLabel}>
           <AttachFileIcon sx={{ fontSize: 30, color: file ? "primary.main" : "inherit" }} />
@@ -144,6 +148,7 @@ const ALLOWED_TYPES = ["image/", "text/plain", "application/pdf"]
           <input
             type="file"
             accept="image/*,text/plain,application/pdf"
+            
             onChange={uploadFile}
             style={{ display: "none" }}
           />
@@ -164,7 +169,7 @@ const ALLOWED_TYPES = ["image/", "text/plain", "application/pdf"]
         ref={textareaRef}
         className={styles.input}
         value={message}
-        placeholder={CHAT_INPUT.PLACEHOLDER}
+        placeholder={selected ? `Ask using ${selected}`:CHAT_INPUT.PLACEHOLDER}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         rows={1}

@@ -3,15 +3,7 @@
 import { createTheme } from "@mui/material/styles"
 import { brandColors, lightTheme as lightThemeTokens, darkTheme as darkThemeTokens } from "./tokens"
 
-/**
- * MUI Theme Configuration
- * 
- * Colors are centralized in tokens.js to ensure consistency with CSS custom properties.
- * When updating brand colors, modify tokens.js and changes automatically sync across:
- * - MUI-themed components (Button, TextField, etc.)
- * - CSS-module components (via CSS variables)
- */
-
+ 
 // ── Light theme ───────────────────────────────────────────────────────────
 export const lightTheme = createTheme({
   palette: {
